@@ -773,3 +773,13 @@ export function withoutHost(input: string) {
   const parsed = parseURL(input);
   return (parsed.pathname || "/") + parsed.search + parsed.hash;
 }
+
+/**
+ * Removes the auth (credentials) section from the URL.
+ *
+ * @group utils
+ */
+export function withoutAuth(input: string): string {
+  const parsed = parseURL(input);
+  return stringifyParsedURL(parsed.withoutCredentials());
+}
