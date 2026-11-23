@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { InvoiceRepo } from "../db/invoiceRepo";
 import { invoiceTotal, type Invoice, type LineItem } from "../domain/invoice";
 import { addDays, isOverdue } from "../lib/dates";
@@ -10,9 +11,9 @@ export class InvoiceService {
     private readonly notifyUrl: string,
   ) {}
 
-  createInvoice(id: string, customerId: string, items: LineItem[], now: Date = new Date()): Invoice {
+  createInvoice(id: string | undefined, customerId: string, items: LineItem[], now: Date = new Date()): Invoice {
     const invoice: Invoice = {
-      id,
+      id: id ?? uuidv4(),
       customerId,
       status: "draft",
       issuedAt: now,
