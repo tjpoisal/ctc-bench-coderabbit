@@ -1,4 +1,4 @@
-import { join } from "./_path";
+import { extname, join } from "./_path";
 import { normalizeWindowsPath } from "./_internal";
 
 const pathSeparators = new Set(["/", "\\", undefined]);
@@ -119,6 +119,18 @@ export function filename(path: string) {
   }
 
   return base.slice(0, separatorIndex);
+}
+
+/**
+ * Checks whether a path has the given extension (case-insensitive).
+ *
+ * @param path - The path to check.
+ * @param extension - The extension, with or without the leading dot.
+ * @returns `true` when the extension matches.
+ */
+export function hasExtension(path: string, extension: string): boolean {
+  const expected = extension.startsWith(".") ? extension : `.${extension}`;
+  return extname(path).toLowerCase() === expected.toLowerCase();
 }
 
 // --- internals ---
