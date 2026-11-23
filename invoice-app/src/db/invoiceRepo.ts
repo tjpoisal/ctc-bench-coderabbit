@@ -5,7 +5,8 @@ export class InvoiceRepo {
   private readonly rows = new Map<string, Invoice>();
 
   findById(id: string): Invoice | undefined {
-    return this.rows.get(id);
+    const row = this.rows.get(id);
+    return row && row.status !== "void" ? row : undefined;
   }
 
   save(invoice: Invoice): Invoice {

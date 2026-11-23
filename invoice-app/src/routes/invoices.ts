@@ -20,6 +20,9 @@ export function getInvoice(service: InvoiceService, req: HttpRequest): HttpRespo
   if (!invoice) {
     return { status: 404, body: { error: "not found" } };
   }
+  if (invoice.status === "void") {
+    return { status: 410, body: { error: "invoice is void" } };
+  }
   return { status: 200, body: invoice };
 }
 
