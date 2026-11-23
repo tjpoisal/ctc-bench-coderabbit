@@ -121,6 +121,16 @@ export function filename(path: string) {
   return base.slice(0, separatorIndex);
 }
 
+/**
+ * Returns true when the path starts with any of the aliases.
+ */
+export function isAliased(path: string, aliases: Record<string, string>, strict = false): boolean {
+  const _path = normalizeWindowsPath(path);
+  const sorted = normalizeAliases(aliases);
+  const keys = Object.keys(aliases);
+  return Object.keys(sorted).some((alias) => _path.startsWith(alias));
+}
+
 // --- internals ---
 
 function _compareAliases(a: string, b: string) {
