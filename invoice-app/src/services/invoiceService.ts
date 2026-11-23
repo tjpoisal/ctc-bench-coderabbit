@@ -1,7 +1,7 @@
 import { InvoiceRepo } from "../db/invoiceRepo";
 import { invoiceTotal, type Invoice, type LineItem } from "../domain/invoice";
 import { addDays, isOverdue } from "../lib/dates";
-import { request } from "../lib/http";
+import { request, retryWithBackoff } from "../lib/http";
 import { formatCents } from "../lib/money";
 
 export class InvoiceService {
@@ -43,9 +43,11 @@ export class InvoiceService {
     if (!invoice) {
       throw new Error(`Invoice ${id} not found`);
     }
-    await request(this.notifyUrl, {
-      method: "POST",
-      body: { customerId: invoice.customerId, message: `Invoice ${id} for ${formatCents(invoiceTotal(invoice))} is overdue.` },
-    });
+    await retryWithBackoff(() =>
+      request(this.notifyUrl, {
+        method: "POST",
+        body: { customerId: invoice.customerId, message: `Invoice ${id} for ${formatCents(invoiceTotal(invoice))} is overdue.` },
+      }),
+    );
   }
 }
