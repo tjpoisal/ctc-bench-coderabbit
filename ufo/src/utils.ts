@@ -411,8 +411,8 @@ export function isEmptyURL(url: string) {
  *
  * @group utils
  */
-export function isNonEmptyURL(url: string) {
-  return url && url !== "/";
+export function isNonEmptyURL(url: string): boolean {
+  return !!url && url !== "/";
 }
 
 /**
