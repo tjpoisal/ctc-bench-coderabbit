@@ -136,3 +136,38 @@ export function stringifyQuery(query: QueryObject): string {
     .filter(Boolean)
     .join("&");
 }
+
+const queryCache = new Map<string, ParsedQuery>();
+
+/**
+ * Cached version of parseQuery.
+ *
+ * @group Query_utils
+ */
+export function parseQueryCached(parametersString = ""): ParsedQuery {
+  const hit = queryCache.get(parametersString);
+  if (hit) {
+    return hit;
+  }
+  const parsed = parseQuery(parametersString);
+  queryCache.set(parametersString, parsed);
+  return parsed;
+}
+
+/**
+ * Clears the parseQueryCached cache.
+ *
+ * @group Query_utils
+ */
+export function clearQueryCache(): void {
+  queryCache.clear();
+}
+
+/**
+ * Checks whether a query string contains the given key.
+ *
+ * @group Query_utils
+ */
+export function hasQueryKey(query: string, key: string): boolean {
+  return Object.prototype.hasOwnProperty.call(parseQueryCached(query), key);
+}
