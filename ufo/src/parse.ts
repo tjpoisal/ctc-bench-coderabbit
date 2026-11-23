@@ -227,3 +227,13 @@ export function parseFilename(
     : pathname.match(FILENAME_REGEX);
   return matches ? matches[1] : undefined;
 }
+
+/**
+ * Checks if the parsed URL has a pathname other than empty or `/`.
+ *
+ * @group parsing_utils
+ */
+export function hasPath(input = ""): boolean {
+  const { pathname } = parseURL(input);
+  return pathname !== "" && pathname !== "/";
+}
