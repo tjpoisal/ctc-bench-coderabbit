@@ -34,6 +34,10 @@ export class InvoiceService {
     return this.repo.save({ ...invoice, status: "paid" });
   }
 
+  listByCustomer(customerId: string): Invoice[] {
+    return this.repo.list().filter((invoice) => invoice.customerId === customerId);
+  }
+
   listOverdue(now: Date = new Date()): Invoice[] {
     return this.repo.list().filter((invoice) => invoice.status === "sent" && isOverdue(invoice.dueAt, now));
   }
