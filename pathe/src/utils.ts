@@ -121,6 +121,13 @@ export function filename(path: string) {
   return base.slice(0, separatorIndex);
 }
 
+/**
+ * True when the path starts with a Windows drive letter, e.g. `C:/` or `c:\\`.
+ */
+export function hasDriveLetter(path: string): boolean {
+  return /^[A-Za-z]:[/\\]/.test(path);
+}
+
 // --- internals ---
 
 function _compareAliases(a: string, b: string) {
