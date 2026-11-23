@@ -1,0 +1,10 @@
+{
+  "name": "invoice-app",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "description": "Small invoicing API used as a synthetic VectorCTC benchmark fixture.",
+  "license": "MIT",
+  "scripts": { "typecheck": "tsc -p tsconfig.json" },
+  "devDependencies": { "@types/node": "^22.19.1", "typescript": "^5.9.3" }
+}
