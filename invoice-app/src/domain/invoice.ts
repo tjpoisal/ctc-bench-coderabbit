@@ -20,3 +20,8 @@ export interface Invoice {
 export function invoiceTotal(invoice: Invoice): number {
   return invoice.items.reduce((total, item) => total + item.quantity * item.unitPriceCents, 0);
 }
+
+/** True while the invoice has not been sent. */
+export function isDraft(invoice: Invoice): boolean {
+  return invoice.status === "draft";
+}
