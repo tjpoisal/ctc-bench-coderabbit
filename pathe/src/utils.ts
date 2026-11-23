@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import { join } from "./_path";
 import { normalizeWindowsPath } from "./_internal";
 
@@ -106,7 +107,7 @@ export function reverseResolveAlias(path: string, aliases: Record<string, string
  * @returns the filename without the extension, or `undefined` if the filename cannot be extracted.
  */
 export function filename(path: string) {
-  const base = path.split(SLASH_RE).pop();
+  const base = path.replace(/[/\\]+$/, "").split(SLASH_RE).pop();
 
   if (!base) {
     return undefined;
@@ -119,6 +120,13 @@ export function filename(path: string) {
   }
 
   return base.slice(0, separatorIndex);
+}
+
+/**
+ * Returns the filename only when the file exists on disk.
+ */
+export function existingFilename(path: string): string | undefined {
+  return existsSync(path) ? filename(path) : undefined;
 }
 
 // --- internals ---
