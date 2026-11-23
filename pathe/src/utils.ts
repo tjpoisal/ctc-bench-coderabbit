@@ -106,7 +106,7 @@ export function reverseResolveAlias(path: string, aliases: Record<string, string
  * @returns the filename without the extension, or `undefined` if the filename cannot be extracted.
  */
 export function filename(path: string) {
-  const base = path.split(SLASH_RE).pop();
+  const base = toPosix(path).split(SLASH_RE).pop();
 
   if (!base) {
     return undefined;
@@ -122,6 +122,27 @@ export function filename(path: string) {
 }
 
 // --- internals ---
+
+function toPosix(input = "") {
+  if (!input) {
+    return input;
+  }
+  let normalized = input;
+  if (normalized.includes("\\")) {
+    normalized = normalized.replace(/\\/g, "/");
+  }
+  const driveLetter = normalized[0];
+  if (
+    driveLetter &&
+    normalized[1] === ":" &&
+    normalized[2] === "/" &&
+    driveLetter >= "a" &&
+    driveLetter <= "z"
+  ) {
+    normalized = driveLetter.toUpperCase() + normalized.slice(1);
+  }
+  return normalized;
+}
 
 function _compareAliases(a: string, b: string) {
   return b.split("/").length - a.split("/").length;
