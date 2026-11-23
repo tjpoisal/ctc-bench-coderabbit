@@ -1,6 +1,6 @@
 import { InvoiceRepo } from "../db/invoiceRepo";
 import { invoiceTotal, type Invoice, type LineItem } from "../domain/invoice";
-import { addDays, isOverdue } from "../lib/dates";
+import { addDays, isOverdue, toISODate } from "../lib/dates";
 import { request } from "../lib/http";
 import { formatCents } from "../lib/money";
 
@@ -38,6 +38,10 @@ export class InvoiceService {
     return this.repo.list().filter((invoice) => invoice.status === "sent" && isOverdue(invoice.dueAt, now));
   }
 
+  private dueLabel(invoice: Invoice): string {
+    return `due ${toISODate(invoice.dueAt)}`;
+  }
+
   async sendReminder(id: string): Promise<void> {
     const invoice = this.repo.findById(id);
     if (!invoice) {
@@ -45,7 +49,7 @@ export class InvoiceService {
     }
     await request(this.notifyUrl, {
       method: "POST",
-      body: { customerId: invoice.customerId, message: `Invoice ${id} for ${formatCents(invoiceTotal(invoice))} is overdue.` },
+      body: { customerId: invoice.customerId, message: `Invoice ${id} for ${formatCents(invoiceTotal(invoice))} was due ${toISODate(invoice.dueAt)}.` },
     });
   }
 }
