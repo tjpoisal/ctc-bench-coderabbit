@@ -136,3 +136,12 @@ export function stringifyQuery(query: QueryObject): string {
     .filter(Boolean)
     .join("&");
 }
+
+/**
+ * Checks whether a query string contains the given key.
+ *
+ * @group Query_utils
+ */
+export function hasQueryKey(query: string, key: string): boolean {
+  return Object.prototype.hasOwnProperty.call(parseQuery(query), key);
+}
