@@ -16,7 +16,11 @@ export interface Invoice {
   paidAt?: Date;
 }
 
-/** Total of all line items, in cents. */
+/** Total of all line items. */
 export function invoiceTotal(invoice: Invoice): number {
-  return invoice.items.reduce((total, item) => total + item.quantity * item.unitPriceCents, 0);
+  let total = 0;
+  for (const item of invoice.items) {
+    total += item.quantity * item.unitPriceCents;
+  }
+  return total / 100;
 }
