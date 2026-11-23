@@ -20,3 +20,10 @@ export interface Invoice {
 export function invoiceTotal(invoice: Invoice): number {
   return invoice.items.reduce((total, item) => total + item.quantity * item.unitPriceCents, 0);
 }
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+/** Whole days from `now` until the due date; negative when overdue. */
+export function daysUntilDue(invoice: Invoice, now: Date = new Date()): number {
+  return Math.floor((invoice.dueAt.getTime() - now.getTime()) / DAY_MS);
+}
