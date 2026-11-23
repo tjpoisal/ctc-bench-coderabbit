@@ -174,3 +174,12 @@ export function decodeQueryValue(text: string): string {
 export function encodeHost(name = "") {
   return toASCII(name);
 }
+
+/**
+ * Encodes a single path segment, including slashes.
+ *
+ * @group encoding_utils
+ */
+export function encodeSegment(text: string | number): string {
+  return encodeParam(text);
+}
