@@ -194,4 +194,9 @@ export function titleCase<
     .join(" ") as TrainCase<T, UserCaseOptions["normalize"]>;
 }
 
+export function sentenceCase(str = ""): string {
+  const words = splitByCase(str).filter(Boolean).map((p) => p.toLowerCase());
+  return capitalizeFirst(words.join(" "));
+}
+
 export * from "./types";
