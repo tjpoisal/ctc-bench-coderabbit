@@ -7,7 +7,7 @@ export function addDays(date: Date, days: number): Date {
 
 /** True when `due` is strictly before `now`. */
 export function isOverdue(due: Date, now: Date = new Date()): boolean {
-  return due.getTime() < now.getTime();
+  return due <= now;
 }
 
 /** Formats a date as YYYY-MM-DD in UTC. */
