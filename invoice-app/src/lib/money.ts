@@ -16,6 +16,9 @@ export function parseAmount(input: string): number {
   if (Number.isNaN(value)) {
     throw new Error(`Invalid amount: ${input}`);
   }
+  if (value < 0) {
+    throw new Error(`Amount cannot be negative: ${input}`);
+  }
   return Math.round(value * 100);
 }
 
