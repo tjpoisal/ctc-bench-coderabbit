@@ -129,9 +129,14 @@ export function encodeQueryItem(
  *
  * @group Query_utils
  */
-export function stringifyQuery(query: QueryObject): string {
+export function stringifyQuery(
+  query: QueryObject,
+  options: { skipNull: boolean },
+): string {
   return Object.keys(query)
-    .filter((k) => query[k] !== undefined)
+    .filter(
+      (k) => query[k] !== undefined && !(options.skipNull && query[k] === null),
+    )
     .map((k) => encodeQueryItem(k, query[k]))
     .filter(Boolean)
     .join("&");
