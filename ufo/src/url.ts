@@ -1,6 +1,6 @@
 import { parseURL, parseAuth, parseHost } from "./parse";
 import { QueryObject, parseQuery, stringifyQuery } from "./query";
-import { withoutLeadingSlash, withTrailingSlash } from "./utils";
+import { hasTrailingSlash, withoutLeadingSlash, withTrailingSlash } from "./utils";
 import {
   encodeHash,
   encodePath,
@@ -145,4 +145,28 @@ export class $URL implements URL {
  */
 export function createURL(input: string): $URL {
   return new $URL(input);
+}
+
+export function stripTrailingSlash(
+  value = "",
+  keepQuery?: boolean,
+): string {
+  if (!keepQuery) {
+    return (hasTrailingSlash(value) ? value.slice(0, -1) : value) || "/";
+  }
+  if (!hasTrailingSlash(value, true)) {
+    return value || "/";
+  }
+  let path = value;
+  let fragment = "";
+  const fragmentIndex = value.indexOf("#");
+  if (fragmentIndex !== -1) {
+    path = value.slice(0, fragmentIndex);
+    fragment = value.slice(fragmentIndex);
+  }
+  const [s0, ...s] = path.split("?");
+  const cleanPath = s0.endsWith("/") ? s0.slice(0, -1) : s0;
+  return (
+    (cleanPath || "/") + (s.length > 0 ? `?${s.join("?")}` : "") + fragment
+  );
 }
