@@ -773,3 +773,19 @@ export function withoutHost(input: string) {
   const parsed = parseURL(input);
   return (parsed.pathname || "/") + parsed.search + parsed.hash;
 }
+
+/**
+ * Removes the query section from the URL.
+ *
+ * @example
+ *
+ * ```js
+ * withoutQuery("http://example.com/foo?q=123#bar")
+ * // Returns "http://example.com/foo#bar"
+ * ```
+ *
+ * @group utils
+ */
+export function withoutQuery(input: string): string {
+  return stringifyParsedURL({ ...parseURL(input), search: "" });
+}
