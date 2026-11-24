@@ -773,3 +773,21 @@ export function withoutHost(input: string) {
   const parsed = parseURL(input);
   return (parsed.pathname || "/") + parsed.search + parsed.hash;
 }
+
+/**
+ * Checks if the URL has a non-empty fragment.
+ *
+ * @group utils
+ */
+export function hasFragment(input: string): boolean {
+  return parseURL(input).hash.length > 1;
+}
+
+/**
+ * Returns the fragment without the leading `#`.
+ *
+ * @group utils
+ */
+export function getFragment(input: string): string {
+  return parseURL(input).hash.slice(1);
+}
