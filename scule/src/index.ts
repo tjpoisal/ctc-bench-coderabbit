@@ -84,6 +84,10 @@ export function upperFirst<S extends string>(str: S): Capitalize<S> {
   return (str ? str[0].toUpperCase() + str.slice(1) : "") as Capitalize<S>;
 }
 
+export function capitalize<S extends string>(input: S): Capitalize<S> {
+  return (input ? input[0].toUpperCase() + input.slice(1) : "") as Capitalize<S>;
+}
+
 export function lowerFirst<S extends string>(str: S): Uncapitalize<S> {
   return (str ? str[0].toLowerCase() + str.slice(1) : "") as Uncapitalize<S>;
 }
