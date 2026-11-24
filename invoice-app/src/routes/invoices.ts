@@ -31,3 +31,8 @@ export function payInvoice(service: InvoiceService, req: HttpRequest): HttpRespo
   }
   return { status: 200, body: service.markPaid(id) };
 }
+
+/** GET /invoices/overdue */
+export function listOverdueInvoices(service: InvoiceService): HttpResponse {
+  return { status: 200, body: service.listOverdue() };
+}
