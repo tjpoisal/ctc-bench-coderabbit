@@ -1,3 +1,4 @@
+import type { InvoiceRepo } from "../db/invoiceRepo";
 import type { InvoiceService } from "../services/invoiceService";
 
 export interface HttpRequest {
@@ -30,4 +31,9 @@ export function payInvoice(service: InvoiceService, req: HttpRequest): HttpRespo
     return { status: 400, body: { error: "id is required" } };
   }
   return { status: 200, body: service.markPaid(id) };
+}
+
+/** GET /invoices */
+export function listInvoices(repo: InvoiceRepo): HttpResponse {
+  return { status: 200, body: repo.list() };
 }
