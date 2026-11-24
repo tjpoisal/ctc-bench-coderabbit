@@ -227,3 +227,20 @@ export function parseFilename(
     : pathname.match(FILENAME_REGEX);
   return matches ? matches[1] : undefined;
 }
+
+function stripDoubleSlashes(input = ""): string {
+  return input
+    .split("://")
+    .map((part) => part.replace(/\/{2,}/g, "/"))
+    .join("://");
+}
+
+/**
+ * Collapses duplicate slashes and ensures a leading slash.
+ *
+ * @group parsing_utils
+ */
+export function normalizePathname(input = ""): string {
+  const cleaned = stripDoubleSlashes(input);
+  return cleaned.startsWith("/") ? cleaned : "/" + cleaned;
+}
