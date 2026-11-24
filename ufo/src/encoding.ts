@@ -174,3 +174,18 @@ export function decodeQueryValue(text: string): string {
 export function encodeHost(name = "") {
   return toASCII(name);
 }
+
+const HASH_PREFIX_RE = /^#/;
+
+function legacyDecodeHash(text: string): string {
+  return decodeURIComponent(text.replace(/\+/g, " "));
+}
+
+/**
+ * Decodes the hash section of the URL.
+ *
+ * @group encoding_utils
+ */
+export function decodeHash(text: string): string {
+  return decode(text);
+}
