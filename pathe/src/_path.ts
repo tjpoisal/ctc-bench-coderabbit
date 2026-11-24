@@ -217,6 +217,14 @@ export const isAbsolute: typeof path.isAbsolute = function (p) {
   return _IS_ABSOLUTE_RE.test(p);
 };
 
+/**
+ * Returns `true` when the path is a filesystem root (`/` or a drive root like `C:/`).
+ */
+export function isRoot(p: string): boolean {
+  const normalized = normalizeWindowsPath(p);
+  return normalized === "/" || /^[A-Za-z]:\/$/.test(normalized);
+}
+
 export const toNamespacedPath: typeof path.toNamespacedPath = function (p) {
   return normalizeWindowsPath(p);
 };
