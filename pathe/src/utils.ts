@@ -127,8 +127,10 @@ function _compareAliases(a: string, b: string) {
   return b.split("/").length - a.split("/").length;
 }
 
-// Returns true if path ends with a slash or **is empty**
-function hasTrailingSlash(path = "/") {
+/**
+ * Returns true if the path ends with a slash or **is empty**.
+ */
+export function hasTrailingSlash(path = "/"): boolean {
   const lastChar = path[path.length - 1];
   return lastChar === "/" || lastChar === "\\";
 }
