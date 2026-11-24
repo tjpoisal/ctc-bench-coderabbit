@@ -1,4 +1,5 @@
 import type { InvoiceService } from "../services/invoiceService";
+import { truncate } from "../lib/strings";
 
 export interface HttpRequest {
   params: Record<string, string>;
@@ -30,4 +31,18 @@ export function payInvoice(service: InvoiceService, req: HttpRequest): HttpRespo
     return { status: 400, body: { error: "id is required" } };
   }
   return { status: 200, body: service.markPaid(id) };
+}
+
+function reminderStatus(sent: boolean): string {
+  return sent ? "queued" : "skipped";
+}
+
+/** POST /invoices/:id/remind */
+export async function remindInvoice(service: InvoiceService, req: HttpRequest): Promise<HttpResponse> {
+  const id = req.params.id;
+  if (!id) {
+    return { status: 400, body: { error: "id is required" } };
+  }
+  await service.sendReminder(id);
+  return { status: 202, body: { id } };
 }
