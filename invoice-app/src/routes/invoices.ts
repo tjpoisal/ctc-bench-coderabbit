@@ -31,3 +31,16 @@ export function payInvoice(service: InvoiceService, req: HttpRequest): HttpRespo
   }
   return { status: 200, body: service.markPaid(id) };
 }
+
+/** POST /invoices/:id/void */
+export function voidInvoiceRoute(service: InvoiceService, req: HttpRequest): HttpResponse {
+  const id = req.params.id;
+  if (!id) {
+    return { status: 400, body: { error: "id is required" } };
+  }
+  const invoice = service.findInvoice(id);
+  if (!invoice) {
+    return { status: 404, body: { error: "not found" } };
+  }
+  return { status: 200, body: invoice };
+}
