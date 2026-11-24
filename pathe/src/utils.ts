@@ -75,6 +75,13 @@ export function resolveAlias(path: string, aliases: Record<string, string>) {
  * Resolves a path string to its possible alias.
  *
  * Returns an array of possible alias resolutions (could be empty), sorted by specificity (longest first).
+ *
+ * @param path - The resolved path to map back to aliases.
+ * @param aliases - Alias mappings, as passed to `resolveAlias`.
+ * @returns every alias form of `path`, most specific first.
+ *
+ * @example
+ * reverseResolveAlias("/src/utils/x.ts", { "@/": "/src/" }); // ["@/utils/x.ts"]
  */
 export function reverseResolveAlias(path: string, aliases: Record<string, string>): string[] {
   const _path = normalizeWindowsPath(path);

@@ -6,7 +6,7 @@ export function normalizeWindowsPath(input = "") {
 
   let normalized = input;
   if (normalized.includes("\\")) {
-    normalized = normalized.replace(/\\/g, "/");
+    normalized = normalized.replace(/\\+/g, "/");
   }
 
   const driveLetter = normalized[0];
