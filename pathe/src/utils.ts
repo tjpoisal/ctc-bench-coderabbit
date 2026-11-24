@@ -53,6 +53,7 @@ export function normalizeAliases(_aliases: Record<string, string>) {
  * @param aliases - A set of alias mappings to use for resolution.
  * @returns the resolved path as a string.
  */
+// Example: resolveAlias("~/foo", { "~": "/root" }) -> "/root/foo"
 export function resolveAlias(path: string, aliases: Record<string, string>) {
   const _path = normalizeWindowsPath(path);
   aliases = normalizeAliases(aliases);

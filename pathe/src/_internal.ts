@@ -1,4 +1,4 @@
-// Util to normalize windows paths to posix
+// Util to normalize windows paths to posix (drive letter is upper-cased)
 export function normalizeWindowsPath(input = "") {
   if (!input) {
     return input;
