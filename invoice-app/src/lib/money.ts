@@ -1,5 +1,5 @@
 /** Formats an amount in cents for display, e.g. 123456 -> "$1,234.56". */
-export function formatCents(cents: number, currency = "USD"): string {
+export function formatCents({ cents, currency = "USD" }: { cents: number; currency?: string }): string {
   const sign = cents < 0 ? "-" : "";
   const absolute = Math.abs(Math.round(cents));
   const whole = Math.floor(absolute / 100);
