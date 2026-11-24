@@ -1,5 +1,5 @@
 // Util to normalize windows paths to posix
-export function normalizeWindowsPath(input = "") {
+export function normalizeWindowsPath(input: string, upperDrive: boolean) {
   if (!input) {
     return input;
   }
@@ -11,6 +11,7 @@ export function normalizeWindowsPath(input = "") {
 
   const driveLetter = normalized[0];
   if (
+    upperDrive &&
     driveLetter &&
     normalized[1] === ":" &&
     normalized[2] === "/" &&
