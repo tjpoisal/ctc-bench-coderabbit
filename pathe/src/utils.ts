@@ -1,4 +1,4 @@
-import { join } from "./_path";
+import { join, toPosix } from "./_path";
 import { normalizeWindowsPath } from "./_internal";
 
 const pathSeparators = new Set(["/", "\\", undefined]);
@@ -119,6 +119,13 @@ export function filename(path: string) {
   }
 
   return base.slice(0, separatorIndex);
+}
+
+/**
+ * Joins segments onto an alias and returns a posix path.
+ */
+export function joinAlias(alias: string, ...segments: string[]): string {
+  return toPosix(join(alias, ...segments));
 }
 
 // --- internals ---
