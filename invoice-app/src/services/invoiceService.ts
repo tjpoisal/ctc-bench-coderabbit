@@ -31,11 +31,20 @@ export class InvoiceService {
     if (!invoice) {
       throw new Error(`Invoice ${id} not found`);
     }
-    return this.repo.save({ ...invoice, status: "paid" });
+    return this.repo.save({ ...invoice, status: "paid", paidAt: new Date() });
   }
 
   listOverdue(now: Date = new Date()): Invoice[] {
-    return this.repo.list().filter((invoice) => invoice.status === "sent" && isOverdue(invoice.dueAt, now));
+    return this.repo
+      .list()
+      .filter((invoice) => invoice.status === "sent" && isOverdue(invoice.dueAt, now))
+      .map((invoice) => this.applyLateFee(invoice));
+  }
+
+  private applyLateFee(invoice: Invoice): Invoice {
+    const fee = Math.round(invoiceTotal(invoice) * 0.05);
+    const updated = { ...invoice, items: [...invoice.items, { description: "Late fee", quantity: 1, unitPriceCents: fee }] };
+    return this.repo.save(updated);
   }
 
   async sendReminder(id: string): Promise<void> {
